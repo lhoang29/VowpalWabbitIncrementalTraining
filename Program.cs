@@ -25,6 +25,9 @@ namespace VowpalWabbitIncrementalTraining
         {
             Configure();
 
+            // Workflow is similar to here: https://azure.microsoft.com/en-us/documentation/articles/machine-learning-retrain-models-programmatically/
+
+            // Trigger Training Web Service
             Trainer.InvokeBatchExecutionService(
                 inputTrainFile: "sample-5-train.vw", // train file
                 inputScoreFile: "sample-5-test.vw", // test file
@@ -32,9 +35,12 @@ namespace VowpalWabbitIncrementalTraining
                 outputPredictionBlobName: "train-pred.csv") // output prediction file
             .Wait();
 
+            // Update Model
             ModelUpdater.InvokeService().Wait();
-            Thread.Sleep(TimeSpan.FromMinutes(1));
 
+            Thread.Sleep(TimeSpan.FromMinutes(2));
+
+            // Trigger Scoring Web Service
             Scorer.InvokeBatchExecutionService(
                 inputDataFile: "sample-5-test.vw", // input data file for scoring
                 outputEvaluationBlobName: "test-eval.csv", // output evaluation file

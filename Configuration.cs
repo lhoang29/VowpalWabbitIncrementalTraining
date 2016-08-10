@@ -8,7 +8,7 @@ namespace VowpalWabbitIncrementalTraining
     {
         private static string modelUrlSasBlobToken;
 
-        public const string InputDataBlobName = "inputdatablob.csv";
+        public const string InputScoreBlobName = "inputdatablob.csv";
         public const string OutputModelBlobName = "modelresults.ilearner";
 
         public static string StorageAccountName;
@@ -24,53 +24,9 @@ namespace VowpalWabbitIncrementalTraining
         public static string ModelUpdateUrl;
         public static string ModelUpdateApiKey;
 
-        public static string ModelUrlSasBlobToken
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(modelUrlSasBlobToken))
-                {
-                    return modelUrlSasBlobToken;
-                }
-                var sasPolicy = new SharedAccessBlobPolicy
-                {
-                    Permissions = SharedAccessBlobPermissions.Read,
-                    SharedAccessStartTime = DateTime.UtcNow.AddMinutes(-1),
-                    SharedAccessExpiryTime = DateTime.UtcNow.AddYears(1)
-                };
-                var storageAccount = CloudStorageAccount.Parse(StorageConnectionString);
-                var blobClient = storageAccount.CreateCloudBlobClient();
-                var blobContainer = blobClient.GetContainerReference(StorageContainerName);
-                var modelBlob = blobContainer.GetBlockBlobReference(OutputModelBlobName);
-                var blobTokenUri = modelBlob.GetSharedAccessSignature(sasPolicy);
-                modelUrlSasBlobToken = blobTokenUri.Substring(blobTokenUri.IndexOf('?'));
-
-                Console.WriteLine("Generated SAS Token for model blob: {0}", modelUrlSasBlobToken);
-
-                return modelUrlSasBlobToken;
-            }
-            set
-            {
-                modelUrlSasBlobToken = value;
-            }
-        }
-
-        public static string ModelUrlBaseLocation
-        {
-            get
-            {
-                return string.Format("http://{0}.blob.core.windows.net/", StorageAccountName);
-            }
-        }
-
-        public static string ModelUrlRelativeLocation
-        {
-            get
-            {
-                return string.Format("{0}/modelresults.ilearner", StorageContainerName);
-            }
-        }
-
+        public static string ModelUrlSasBlobToken;
+        public static string ModelUrlBaseLocation;
+        public static string ModelUrlRelativeLocation;
 
         public static string StorageConnectionString
         {

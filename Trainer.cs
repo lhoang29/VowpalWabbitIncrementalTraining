@@ -59,6 +59,7 @@ namespace VowpalWabbitIncrementalTraining
                     GlobalParameters = new Dictionary<string, string>() {
                         { "Path to container, directory or blob", Configuration.StorageContainerName + "/" + inputScoreFile },
                         { "Name of the input VW file", inputTrainFile },
+                        { "Azure container name", Configuration.StorageContainerName },
                     }
                 };
 
@@ -158,6 +159,13 @@ namespace VowpalWabbitIncrementalTraining
                 Console.WriteLine(string.Format("RelativeLocation: {0}", blobLocation.RelativeLocation));
                 Console.WriteLine(string.Format("SasBlobToken: {0}", blobLocation.SasBlobToken));
                 Console.WriteLine();
+
+                if (output.Key == "model")
+                {
+                    Configuration.ModelUrlSasBlobToken = blobLocation.SasBlobToken;
+                    Configuration.ModelUrlBaseLocation = blobLocation.BaseLocation;
+                    Configuration.ModelUrlRelativeLocation = blobLocation.RelativeLocation;
+                }
             }
         }
     }

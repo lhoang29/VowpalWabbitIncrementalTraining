@@ -28,13 +28,12 @@ namespace VowpalWabbitIncrementalTraining
 
             string storageConnectionString = Configuration.StorageConnectionString;
 
-            Helper.UploadFileToBlob(inputDataFile, Configuration.InputDataBlobName, Configuration.StorageContainerName, storageConnectionString);
+            Helper.UploadFileToBlob(inputDataFile, Configuration.InputScoreBlobName, Configuration.StorageContainerName, storageConnectionString);
 
             using (HttpClient client = new HttpClient())
             {
                 var request = new BatchExecutionRequest()
                 {
-
                     Inputs = new Dictionary<string, AzureBlobDataReference>()
                     {
                         {
@@ -42,7 +41,7 @@ namespace VowpalWabbitIncrementalTraining
                             new AzureBlobDataReference()
                             {
                                 ConnectionString = storageConnectionString,
-                                RelativeLocation = string.Format("{0}/{1}", Configuration.StorageContainerName, Configuration.InputDataBlobName)
+                                RelativeLocation = string.Format("{0}/{1}", Configuration.StorageContainerName, Configuration.InputScoreBlobName)
                             }
                         },
                     },
