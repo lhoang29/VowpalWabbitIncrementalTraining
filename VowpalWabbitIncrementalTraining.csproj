@@ -80,7 +80,6 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ResourceLocation.cs" />
-    <Compile Include="Scorer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trainer.cs" />
     <Compile Include="ModelUpdater.cs" />
@@ -89,6 +88,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="sample-5-test.vw">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="sample-5-train-100.vw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="sample-5-train.vw">

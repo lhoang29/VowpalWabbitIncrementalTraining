@@ -14,9 +14,6 @@ namespace VowpalWabbitIncrementalTraining
             Configuration.TrainerUrl = ""; // Replace this with the URL of Training web service
             Configuration.TrainerApiKey = ""; // Replace this with the API key for the web service
 
-            Configuration.ScorerUrl = ""; // Replace this with the URL of Scoring web service
-            Configuration.ScorerApiKey = ""; // Replace this with the API key for the web service
-
             Configuration.ModelUpdateUrl = ""; // Replace this with the URL of Update Resource endpoint
             Configuration.ModelUpdateApiKey = ""; // Replace this with the API key for the endpoint
         }
