@@ -29,23 +29,27 @@ namespace VowpalWabbitIncrementalTraining
 
             // Trigger Training Web Service
             Trainer.InvokeBatchExecutionService(
-                inputTrainFile: "sample-5-train.vw", // train file
+                inputTrainFile: "sample-5-train-100.vw", // train file
                 inputScoreFile: "sample-5-test.vw", // test file
-                outputEvaluationBlobName: "train-eval.csv", // output evaluation file
-                outputPredictionBlobName: "train-pred.csv") // output prediction file
+                outputEvaluationBlobName: "train-eval-1.csv", // output evaluation file
+                outputPredictionBlobName: "train-pred-1.csv") // output prediction file
             .Wait();
 
             // Update Model
             ModelUpdater.InvokeService().Wait();
 
+            // Ensure the model resource has time to update
             Thread.Sleep(TimeSpan.FromMinutes(2));
 
-            // Trigger Scoring Web Service
-            Scorer.InvokeBatchExecutionService(
-                inputDataFile: "sample-5-test.vw", // input data file for scoring
-                outputEvaluationBlobName: "test-eval.csv", // output evaluation file
-                outputPredictionBlobName: "test-pred.csv") // output prediction file
+            // Trigger Training Web Service again, this time with updated model
+            Trainer.InvokeBatchExecutionService(
+                inputTrainFile: "sample-5-test.vw", // train file
+                inputScoreFile: "sample-5-test.vw", // test file
+                outputEvaluationBlobName: "train-eval-2.csv", // output evaluation file
+                outputPredictionBlobName: "train-pred-2.csv") // output prediction file
             .Wait();
+
+            // Check in Azure blobs that train-eval-2.csv has better accuracy than train-eval-1.csv
         }
     }
 }
